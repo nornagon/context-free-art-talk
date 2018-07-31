@@ -23,7 +23,199 @@ class: center, middle
 
 # Context Free Art
 
+### Jeremy Apthorp<br>[@nornagon](https://twitter.com/nornagon)[@social.coop](https://social.coop/@nornagon)
+
+???
+
+hi everyone, thanks for promising to listen to me for a little while!
+
+today i want to say some things about grammar.
+
 ---
+
+class: center, middle
+
+to understand
+
+is
+
+to describe
+
+???
+
+the need to understand the world around us is a fundamental human desire
+
+to understand, perhaps, means to _describe the rules_ of the world
+
+by what rules do the stars abide?
+
+by what rules the ants and bees?
+
+and what are the rules of language?
+
+---
+
+class: center, middle
+
+!['ancient' drawing on parchment of Panini operating a computer. Panini sits
+cross-legged, holding a feather quill to the keyboard.](panini.jpg)
+
+???
+
+though i'm sure many came before him, the earliest example that i could find of
+someone trying to write down the rules of language was the Hindu scholar,
+Panini, who lived in northwestern India.
+
+He wrote, using ink made from nuts and purple-leaf plums, on finely woven
+cloth, four thousand statements which described in glittering detail the rules
+of the Sanskrit language.
+
+that was two and a half _thousand_ years ago.
+
+---
+
+class: center, middle
+
+![photograph of noam chomsky speaking at an event in front of two
+microphones](chomsky.jpg)
+
+???
+
+circa 1950 AD, the intellectual juggernaut noam chomsky was busy redefining the
+field of linguistics from its previous state as a subjective branch of
+anthropology, into its current state as a highly technical field concerned with
+structure and neuroscience.
+
+chomsky wanted to understand, not just the rules of one language, but the rules
+of _language itself_. how does the human mind translate its ephemeral thoughts
+into concrete utterances?
+
+chomsky thought there was a universal language, a proto-speech based on
+recursive structure, that was common to _all_ languages.
+
+---
+
+![photograph of john backus wearing big glasses and holding a few printed pages
+stapled together at the corner](backus.jpg)
+
+![photograph of harrison ford wearing a leather jacket and holding a fake
+gun](harrison-ford.webp)
+
+???
+
+around the same time, a mathematician from Pennsylvania by the name of John
+Backus was getting interested in programming. he grew up in Pottstown, PA and
+during high school was "apparently not a diligent student". his rich dad paid
+for him to get into UVa for chemistry, which he promptly failed out of. he
+joined the army and trained as a medic, but didn't like that either and he
+eventually left and moved to New York. he liked music and wanted a good hi-fi
+set, but apparently none of the available ones were to his liking so he
+enrolled at a radio technician's school to learn how to make one, which, you
+know, i'm sure is something we can all relate to.
+
+anyway, one thing lead to another and Backus ended up on a committee to design
+a language for specifying algorithms, called ALGOL.
+
+---
+
+[... lead the way to context-free grammars being the main way that programming
+langs are designed]
+
+---
+
+# what's a grammar
+
+- it's a description of a _language_
+- _sentences_ in a language are sequences of symbols
+- a _grammar_ is a description of which sentences are allowed in the language
+  and which aren't
+  
+???
+  
+Grammars are a computer-sciency way of saying that big complex things are made
+out of other things, and those other things may themselves be made out of even
+smaller simpler things.
+
+---
+
+[show an example of BNF]
+
+---
+
+[it's cool to write haskell in javascript now, right?
+https://github.com/jneen/parsimmon]
+
+---
+
+---
+
+[put a compiler error here]
+
+???
+
+as programmers, we're steeped in grammars, we interact with them every day.
+they function as precision tools, with which we specify in exacting detail what
+we want the computer to do. and if we speak them even slightly wrong, out pops
+a compiler error. it's a bit tyrannical, no? oh, you forgot the semicolon? what
+about NOW YOUR ENTIRE PROGRAM DOESN'T WORK???
+
+---
+
+[CFDG example]
+
+???
+
+so i was so deliciously tickled and delighted when i discovered this whole body
+of art in which people turn grammars inside-out.
+
+we think of grammars as _checkers_, sets of rules by which we have to abide to
+be understood. but what i want to show you today is a way of inverting that,
+and using grammars to _generate_. to generate images, text, even music.
+
+---
+
+???
+
+the basic idea is this: instead of thinking of each symbol in the grammar as
+abstracting over other lower-level symbols, think of it as _generating_ those
+lower-level symbols. so for example, in JavaScript, a variable declaration
+might look like this
+
+---
+
+```
+VariableDeclaration := ConstOrLet Identifier
+                    or ConstOrLet Identifier Equals Expression
+ConstOrLet := const
+           or let
+Identifier := (any sequence of non-space, non-punctuation characters)
+Equals     := '='
+Expression := [...]
+```
+
+???
+
+so you could look at this and say, oh, okay, a variable declaration must start
+with a const or a let, then an identifier of some kind, then maybe an equals
+followed by an expression.
+
+---
+
+???
+
+the first example of generative grammars i want to give is of a grammar which
+generates text. 
+
+---
+
+
+---
+
+---
+
+---
+
+???
 
 # Outline
 
@@ -33,6 +225,7 @@ class: center, middle
     1. Panini
     2. Chomsky
     3. Backus
+  3. Grammars are a computer-sciency way of saying that big complex things are made out of other things, and those other things may themselves be made out of even smaller simpler things
   3. Backus-Naur Form
     1. So how do you write down a grammar?
     2. A simple example (arithmetic? dance moves?)
@@ -58,8 +251,6 @@ class: center, middle
   2. We understand the world through art
   3. One of the things I think is particularly pleasing about this kind of art
      is that it has very clear structure to it, revealed by repetition.
-
----
 
 # Agenda
 
@@ -88,181 +279,10 @@ class: center, middle
   can i make a cfdg that shows "undefined is not a function"..?
 -->
 
----
-
-it is a fundamental human desire to understand the world around us
-
-to understand, perhaps, means to _describe the rules_ of the world
-
-by what rules do the stars abide?
-
-by what rules the ants and bees?
-
-and what are the rules of language?
-
-though i'm sure many came before him, the earliest instance i found of someone
-trying to write down the rules of language was the Hindu scholar, Panini, who
-lived in northwestern India. He wrote,
-using ink made from nuts and purple-leaf plums, on finely woven cloth, four
-thousand statements which described in glittering detail the rules of the Sanskrit
-language.
-
-that was two and a half _thousand_ years ago.
-
-circa 1950 AD, the intellectual juggernaut noam chomsky was busy redefining the
-field of linguistics from its previous state as a subjective branch of
-anthropology, into its current state as a highly technical field concerned with
-structure and neuroscience. chomsky wanted to understand, not just the rules of
-one language, but the rules of _language itself_. how does the human mind
-translate its ephemeral thoughts into concrete utterances?  chomsky thought
-there was a universal language, a proto-speech based on recursive structure,
-that was common to _all_ languages.
-
-around the same time, a mathematician from Pennsylvania by the name of John
-Backus was getting interested in programming. he grew up in Pottstown, PA and
-during high school was "apparently not a diligent student". his rich dad paid
-for him to get into UVa for chemistry, which he promptly failed out of. he
-joined the army and trained as a medic, but didn't like that either and he
-eventually left and moved to New York. he liked music and wanted a good hi-fi
-set, but apparently none of the available ones were to his liking so he
-enrolled at a radio technician's school to learn how to make one, which, you
-know, i'm sure is something we can all relate to.
-
-anyway, one thing lead to another and Backus ended up on a committee to design
-a language for specifying algorithms, called ALGOL.
-
-[... lead the way to context-free grammars being the main way that programming
-langs are designed]
-
-[show an example of BNF]
-
----
-
-as programmers, we're steeped in grammars, we interact with them every day.
-they function as precision tools, with which we specify in exacting detail what
-we want the computer to do. and if we speak them even slightly wrong, out pops
-a compiler error. it's a bit tyrannical, no? oh, you forgot the semicolon? what
-about NOW YOUR ENTIRE PROGRAM DOESN'T WORK???
-
-so i was so deliciously tickled and delighted when i discovered this whole body
-of art in which people turn grammars inside-out.
-
-we think of grammars as _checkers_, sets of rules by which we have to abide to
-be understood. but what i want to show you today is a way of inverting that,
-and using grammars to _generate_. to generate images, text, even music.
-
-the basic idea is this: instead of thinking of each symbol in the grammar as
-abstracting over other lower-level symbols, think of it as _generating_ those
-lower-level symbols. so for example, in JavaScript, a variable declaration
-might look like
-
-VariableDeclaration := ConstOrLet Identifier
-                    or ConstOrLet Identifier Equals Expression
-ConstOrLet := const
-           or let
-Identifier := (any sequence of non-space, non-punctuation characters)
-Equals     := '='
-Expression := [...]
-
-so you could look at this and say, oh, okay, a variable declaration must start
-with a const or a let, then an identifier of some kind, then maybe an equals
-followed by an expression.
-
----
-
-the first example of generative grammars i want to give is of a grammar which
-generates text. 
-
----
-
-class: center, middle
-
-# what's a grammar
-
----
-
-# what's a grammar
-
-- it's a description of a _language_
-- _sentences_ in a language are sequences of symbols
-- a _grammar_ is a description of which sentences are allowed in the language
-  and which aren't
-
----
-
-# what's a grammar
-- the first known complete description of a language was written by Hindi
-  scholar पाणिनि ([Panini][panini-wiki]), around 2,200 years ago.
-
-!['ancient' drawing on parchment of Panini operating a computer. Panini sits
-cross-legged, holding a feather quill to the keyboard.](panini.jpg)
-
----
-
-# what's a grammar
-
-so ok, how do we describe which sentences are allowed and which aren't?
-
-let's pretend we're studying a language where the symbols are `i` and `e` and
-`c`.
-
-and not just any combination of `i`s, `e`s and `c`s are allowed, there are
-RULES dangit
-
-everyone knows i comes before e, except after c.
-
-so `ie` is obviously a valid sentence.
-so is `cei`.
-`cie` is NOT OK
-
-IEs := IE | IE IEs
-S := IEs | IEs C EIs | C EIs
-
-```
-Sentence is Noun Verb
-         or Noun Verb, then Sentence
-         or Noun Verb (but Sentence)
-```
-
-
-```
-S -> a b
-S -> b a
-S -> S S
-```
-
-```
-ab ✅
-bb 🙅
-abba ✅
-acdc 🙅
-```
-
----
-
-# what's a grammar
-
----
-
-# what's a _context-free_ grammar
-
-a contextful grammar would be one where the "matching" part of a rule depended
-on context.
-
----
-
-# what's a grammar
-
-- you can use a grammar to check whether a particular sentence is
-  grammatical...
-- ...or you could flip off the prescriptivists and use it to make art instead
-
----
-
-
 
 
 [panini-wiki]: https://en.wikipedia.org/wiki/P%C4%81%E1%B9%87ini#A%E1%B9%A3%E1%B9%AD%C4%81dhy%C4%81y%C4%AB
+[writing tools in india]: http://www.fountainpennetwork.com/forum/topic/272267-a-brief-history-of-writing-materials-and-instruments-in-india/
 [complicated-maths]: https://cs.stackexchange.com/questions/265/how-to-prove-that-a-language-is-not-context-free
 [jonblow_exe]: https://twitter.com/jonblow_exe
 [str_voyage]: https://twitter.com/str_voyage
