@@ -115,62 +115,116 @@ class: center, middle
   </div>
   <div>
     <img src="harrison-ford.webp" alt="photograph of harrison ford wearing a
-    leather jacket and holding a fake gun" height=500 />
+    leather jacket and holding a sci-fi gun" height=500 style="opacity: 0" />
   </div>
 </div>
 
 ???
 
 around the same time, a mathematician from Pennsylvania by the name of John
-Backus was getting interested in programming. he grew up in Pottstown, PA and
-during high school was "apparently not a diligent student". his rich dad paid
-for him to get into UVa for chemistry, which he promptly failed out of. he
-joined the army and trained as a medic, but didn't like that either and he
-eventually left and moved to New York. he liked music and wanted a good hi-fi
-set, but apparently none of the available ones were to his liking so he
-enrolled at a radio technician's school to learn how to make one, which, you
-know, i'm sure is something we can all relate to.
+Backus was getting interested in programming.
+
+he grew up in Pottstown, PA and during high school was "apparently not a
+diligent student". his rich dad paid for him to get into UVa for chemistry,
+which he promptly failed out of. he joined the army and trained as a medic, but
+didn't like that either and he eventually left and moved to New York.
+
+he liked music and wanted a good hi-fi set, but apparently none of the
+available ones were to his liking, so he enrolled at a radio technician's
+school to learn how to make one. which, you know, i'm sure is something we can
+all relate to.
+
+---
+
+class: center, middle
+
+<div style="display: flex; justify-content: space-around">
+  <div>
+    <img src="backus.jpg" alt="photograph of john backus wearing big glasses
+    and holding a few printed pages stapled together at the corner" height=500 />
+  </div>
+  <div>
+    <img src="harrison-ford.webp" alt="photograph of harrison ford wearing a
+    leather jacket and holding a sci-fi gun" height=500 />
+  </div>
+</div>
+
+???
+
+ALSO, i'm just saying, i've never seen John Backus and Harrison Ford in the
+same room.
+
+---
+
+```bnf
+Expression := Num
+            | Expression Expression Op
+Op         := '+' | '-' | '*' | '/'
+Num        := '0' | '1' | '2' | '3' | '4'
+            | '5' | '6' | '7' | '8' | '9'
+```
+
+```
+3 4 +
+1 2 - 3 *
+7 2 3 4 - 3 + *
+```
+
+???
 
 anyway, one thing lead to another and Backus ended up on a committee to design
 a language for specifying algorithms, called ALGOL.
 
+in order to write down the rules of the ALGOL language, he came up with a
+_meta-language_, a language for describing languages, which we still use for
+all sorts of things. usually you'll see it called "BNF", short for "Backus-Naur
+form", but i like the proposal of one person who wrote in to the ACM in 1967 to
+call it instead "Panini-Backus Form".
+
+Backus received the Turing award twenty years later, for his work on ALGOL and
+FORTRAN, and just about every programming language today can trace part of its
+history back to his work on the ALGOL committee.
+
 ---
 
-[... lead the way to context-free grammars being the main way that programming
-langs are designed]
+```js
+let Lisp = P.createLanguage({
+  Expression: r => P.alt(r.Symbol, r.Number, r.List),
 
----
+  Symbol: () =>
+    P.regexp(/[a-zA-Z_-][a-zA-Z0-9_-]*/),
 
-# what's a grammar
+  Number: () =>
+    P.regexp(/[0-9]+/).map(Number),
 
-- it's a description of a _language_
-- _sentences_ in a language are sequences of symbols
-- a _grammar_ is a description of which sentences are allowed in the language
-  and which aren't
-  
+  List: r =>
+    r.Expression.trim(P.optWhitespace)
+      .many()
+      .wrap(P.string("("), P.string(")")),
+
+  File: r => r.Expression.trim(P.optWhitespace).many(),
+});
+```
+
+<div style="display: flex; justify-content: space-between">
+<img src="parsimmon.png" alt="parsimmon logo, a persimmon between two parentheses"/>
+<a href="https://github.com/jneen/parsimmon">github.com/jneen/parsimmon</a>
+</div>
+
 ???
 
-so what's a grammar? it's a computer-sciency way of saying that big complex
-things are made out of other things, and those other things may themselves be
-made out of even smaller simpler things.
-
-[ehhh? what's going on here]
-
+Since this _is_ a JavaScript meetup, I guess I'd better show some JavaScript.
+If you ever find yourself wanting to describe a grammar in JavaScript, I can't
+recommend this library, parsimmon, strongly enough.
 
 ---
-
-[show an example of BNF]
 
 ???
 
-this is a meta-language!
+as programmers, we're steeped in grammars, we interact with them every day.
 
----
-
-[it's cool to write haskell in javascript now, right?
-https://github.com/jneen/parsimmon]
-
----
+they function as precision tools, with which we specify in exacting detail what
+we want the computer to do.
 
 ---
 
@@ -180,11 +234,10 @@ class: center, middle
 
 ???
 
-as programmers, we're steeped in grammars, we interact with them every day.
-they function as precision tools, with which we specify in exacting detail what
-we want the computer to do. and if we speak them even slightly wrong, out pops
-a compiler error. it's a bit tyrannical, no? oh, you forgot the semicolon? what
-about NOW YOUR ENTIRE PROGRAM DOESN'T WORK???
+and if we speak them even slightly wrong, out pops a compiler error.
+
+it's a bit tyrannical, no? oh, you forgot the semicolon? what about NOW YOUR
+ENTIRE PROGRAM DOESN'T WORK???
 
 ---
 
@@ -229,13 +282,37 @@ and using grammars to _generate_.
 
 ---
 
+```bnf
+Expression := Num
+            | Expression Expression Op
+Op         := '+' | '-' | '*' | '/'
+Num        := '0' | '1' | '2' | '3' | '4'
+            | '5' | '6' | '7' | '8' | '9'
+```
+
+```js
+function Expression() {
+  return oneOf(
+    () => Num(),
+    () => `${Expression()}${Expression()}${Op()}`
+  )
+}
+function Op() {
+  return oneOf(
+    '+', '-', '*', '/'
+  )
+}
+function Num() {
+  return oneOf('0', '1', '2', '3', '4',
+               '5', '6', '7', '8', '9')
+}
+```
+
 ???
 
 the basic idea is this: instead of thinking of each symbol in the grammar as
-abstracting over other lower-level symbols, think of it as _generating_ those
-lower-level symbols.
-
-[simple example]
+abstracting over or being made out of other lower-level symbols, think of it as
+_creating_ those lower-level symbols.
 
 ---
 
@@ -259,6 +336,9 @@ class: center, middle
 ???
 
 *point at the screen*
+
+here's a breakdown of how it's generated. this is one example run of the
+grammar.
 
 ---
 
@@ -288,6 +368,17 @@ class: center, middle
 
 ???
 
+The source code for @LostTesla is freely available (it's linked in the twitter
+bio), and it's written with this really cool tool that Kate Compton made,
+called tracery.
+
+it lets you define a grammar in a JSON structure, so you can set up each of
+your symbols -- origin, adventure, and so on -- as keys in the dictionary, and
+then the values are all arrays of strings. in the string, you can put regular
+text, but if you put a symbol name between hashes, then tracery will go and
+look up that symbol in the dictionary and replace the reference with a randomly
+chosen value from that symbol.
+
 ---
 
 <h2>Tracery <small>(by Kate Compton)</small></h2>
@@ -314,20 +405,37 @@ class: center, middle
 }
 ```
 
+???
+
+i think this is beautiful, to be able to turn around this tool that we're used
+to being so precise and methodical, and create with it the internal monologue
+of a lonely robot who's just trying to find its way home.
+
 ---
 
 class: center, middle
 
-# [@LostTesla](https://twitter.com/LostTesla)
 # [tracery.io](https://tracery.io)
 # [Cheap Bots Done Quick](https://cheapbotsdonequick.com/)
+# [@LostTesla](https://twitter.com/LostTesla)
+# [Kate Compton](https://www.galaxykate.com/)
+
+???
+
+if you want to know more about tracery, there's the website, and also there's
+this super amazing tool called cheap bots done quick, which does all of the
+boring bits of calling the twitter api for you, so you can just paste in a
+tracery JSON object and get a twitter bot.
+
+Kate Compton has written a whole lot of incredible stuff about generative art
+too, and i recommend checking out her website.
 
 ---
 
 ???
 
-but grammars aren't just limited to text. everything around you has a language
-to it, a rhythm, a form.
+but we aren't limited to just creating _text_ with grammars. everything around
+you has a language to it, a rhythm, a form.
 
 ---
 
@@ -370,9 +478,7 @@ rule WALL1 0.005 {
 
 ???
 
-this image is also generated by a grammar.
-
-[more]
+this image is generated by a grammar.
 
 ---
 
@@ -573,6 +679,7 @@ thanks!!
 [contextfree.js]: http://alpico.la/contextfree.js/
 [ryan herr banjo grammar]: https://github.com/rrherr/banjo-grammar
 [ryan herr banjo grammar tweet]: https://twitter.com/rrherr/status/1002642623776030720
+[nyt backus obituary]: https://www.nytimes.com/2007/03/20/business/20backus.html
     </textarea>
     <script src="remark-latest.min.js">
     </script>
